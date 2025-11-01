@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Bike Rental - Smart Cycling Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .ai-badge {
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--gray);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* AI Features Section */
+        .ai-features {
+            padding: 4rem 0;
+            background-color: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--dark);
+        }
+
+        .ai-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .ai-feature-card {
+            background-color: var(--white);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--light-gray);
+        }
+
+        .ai-feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .ai-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* Bike Listing */
+        .bike-listing {
+            padding: 4rem 0;
+            background-color: var(--light);
+        }
+
+        .filter-section {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .bike-card {
+            background-color: var(--white);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .bike-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .bike-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .bike-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bike-details {
+            padding: 1.5rem;
+        }
+
+        .bike-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .bike-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .bike-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .bike-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .ai-recommendation {
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Route Planner */
+        .route-planner {
+            padding: 4rem 0;
+            background-color: var(--white);
+        }
+
+        .route-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        .route-form {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+        }
+
+        .route-map {
+            height: 400px;
+            background-color: var(--light-gray);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e5e7eb;
+            color: var(--gray);
+        }
+
+        /* Chatbot */
+        .chatbot {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background-color: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-window.active {
+            display: flex;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+        }
+
+        .message.user {
+            background-color: var(--light-gray);
+            align-self: flex-end;
+        }
+
+        .message.bot {
+            background-color: var(--primary);
+            color: var(--white);
+            align-self: flex-start;
+        }
+
+        .chatbot-input {
+            padding: 1rem;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 0.375rem;
+        }
+
+        .chatbot-input button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+
+        /* Booking Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* Price Badge */
+        .price-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .route-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .chatbot-window {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-container">
+                <div class="logo">
+                    <i class="fas fa-bicycle"></i>
+                    <span>AI Bike Rental</span>
+                    <span class="ai-badge">AI POWERED</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#bikes">Bikes</a></li>
+                        <li><a href="#ai-features">AI Features</a></li>
+                        <li><a href="#route-planner">Route Planner</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="#bikes" class="btn btn-primary">Rent Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Smart Bike Rental with AI</h1>
+                    <p>Experience the future of cycling with our AI-powered bike rental platform. Get personalized recommendations, optimal routes, and 24/7 virtual assistance.</p>
+                    <div class="hero-buttons">
+                        <a href="#bikes" class="btn btn-primary">Explore Bikes</a>
+                        <a href="#ai-features" class="btn btn-secondary">Learn About AI</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1541621650348-3b0dab0a0a6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Smart Bike">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Features Section -->
+    <section id="ai-features" class="ai-features">
+        <div class="container">
+            <h2 class="section-title">AI-Powered Features</h2>
+            <div class="ai-features-grid">
+                <div class="ai-feature-card">
+                    <div class="ai-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Smart Recommendations</h3>
+                    <p>Our AI analyzes your preferences, riding style, and current conditions to recommend the perfect bike for your journey.</p>
+                </div>
+                <div class="ai-feature-card">
+                    <div class="ai-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3>Intelligent Route Planning</h3>
+                    <p>AI-powered route optimization considers traffic, weather, and bike lanes to create the safest and most enjoyable path.</p>
+                </div>
+                <div class="ai-feature-card">
+                    <div class="ai-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>24/7 Virtual Assistant</h3>
+                    <p>Our AI chatbot is always ready to help with booking, bike information, and any questions you might have.</p>
+                </div>
+                <div class="ai-feature-card">
+                    <div class="ai-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Predictive Analytics</h3>
+                    <p>AI predicts bike availability, demand, and maintenance needs to ensure a seamless rental experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bike Listing -->
+    <section id="bikes" class="bike-listing">
+        <div class="container">
+            <h2 class="section-title">Available Bikes</h2>
+            
+            <div class="filter-section">
+                <h4>AI-Powered Filters</h4>
+                <div class="filter-grid">
+                    <div>
+                        <label for="bike-type">Bike Type</label>
+                        <select class="form-control" id="bike-type">
+                            <option value="">All Types</option>
+                            <option value="mountain">Mountain Bike</option>
+                            <option value="road">Road Bike</option>
+                            <option value="hybrid">Hybrid</option>
+                            <option value="electric">Electric</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="duration">Duration</label>
+                        <select class="form-control" id="duration">
+                            <option value="">Any Duration</option>
+                            <option value="1h">1 Hour</option>
+                            <option value="2h">2 Hours</option>
+                            <option value="4h">4 Hours</option>
+                            <option value="1d">1 Day</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="price">Max Price</label>
+                        <select class="form-control" id="price">
+                            <option value="">Any Price</option>
+                            <option value="50">₹50/hr</option>
+                            <option value="80">₹80/hr</option>
+                            <option value="120">₹120/hr</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="ai-pref">AI Preference</label>
+                        <select class="form-control" id="ai-pref">
+                            <option value="">No Preference</option>
+                            <option value="comfort">Comfort</option>
+                            <option value="speed">Speed</option>
+                            <option value="scenic">Scenic Routes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" id="bike-list">
+                <!-- Bike 1 - bike.7 -->
+                <div class="col-md-4">
+                    <div class="bike-card">
+                        <div class="bike-image">
+                            <img src="https://z-cdn-media.chatglm.cn/files/53e3a5de-9578-407c-8a41-9a6294d186a8_bike.7.jpg?auth_key=1789888414-adc894ecee1a4f4186b9879b91c93f80-0-bd71c5d154ec63aa205628771dbd364d" alt="KTM Bike">
+                            <div class="price-badge">₹80/hr</div>
+                        </div>
+                        <div class="bike-details">
+                            <div class="ai-recommendation">
+                                <i class="fas fa-star"></i> AI Recommended
+                            </div>
+                            <h3 class="bike-name">KTM Orange</h3>
+                            <div class="bike-price">₹80/hour</div>
+                            <div class="bike-features">
+                                <div class="bike-feature">
+                                    <i class="fas fa-motorcycle"></i> Sport
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-cog"></i> Manual
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-weight"></i> Light
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="openBookingModal('KTM Orange', 80)">Rent Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bike 2 - bike.2 -->
+                <div class="col-md-4">
+                    <div class="bike-card">
+                        <div class="bike-image">
+                            <img src="https://z-cdn-media.chatglm.cn/files/8e193ca7-6e82-401e-a6ee-cdf79c6f0cf9_bike.2.jpeg?auth_key=1789888414-f636b8b770a34908ac19d84f613ea11c-0-b14d94cde1eac124ed0ab9431770d1a0" alt="Sport Bike">
+                            <div class="price-badge">₹80/hr</div>
+                        </div>
+                        <div class="bike-details">
+                            <h3 class="bike-name">Sport Racer</h3>
+                            <div class="bike-price">₹80/hour</div>
+                            <div class="bike-features">
+                                <div class="bike-feature">
+                                    <i class="fas fa-road"></i> Road
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-cog"></i> 21 Speed
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-weight"></i> 10kg
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="openBookingModal('Sport Racer', 80)">Rent Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bike 3 - bike.5 -->
+                <div class="col-md-4">
+                    <div class="bike-card">
+                        <div class="bike-image">
+                            <img src="https://z-cdn-media.chatglm.cn/files/19732b7c-ca28-4773-8502-b4f29f1ca32c_bike.5.jpg?auth_key=1789888414-fda29658749c41e69becc360052f1281-0-e48fce839fadeef509d779a3523c20f6" alt="Retro Bike">
+                            <div class="price-badge">₹120/hr</div>
+                        </div>
+                        <div class="bike-details">
+                            <div class="ai-recommendation">
+                                <i class="fas fa-heart"></i> AI Style Pick
+                            </div>
+                            <h3 class="bike-name">Retro Classic</h3>
+                            <div class="bike-price">₹120/hour</div>
+                            <div class="bike-features">
+                                <div class="bike-feature">
+                                    <i class="fas fa-history"></i> Retro
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-cog"></i> 18 Speed
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-weight"></i> 14kg
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="openBookingModal('Retro Classic', 120)">Rent Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bike 4 - bike.3 -->
+                <div class="col-md-4">
+                    <div class="bike-card">
+                        <div class="bike-image">
+                            <img src="https://z-cdn-media.chatglm.cn/files/e1ea766e-5c63-45dc-92ed-36359ef9eb05_bike.3.jpg?auth_key=1789888414-a6d0e900bd094836843fc0e30b831d21-0-5224f7cb8df43eedc8d99921ea908403" alt="Hunter Bike">
+                            <div class="price-badge">₹120/hr</div>
+                        </div>
+                        <div class="bike-details">
+                            <h3 class="bike-name">Hunter Red</h3>
+                            <div class="bike-price">₹120/hour</div>
+                            <div class="bike-features">
+                                <div class="bike-feature">
+                                    <i class="fas fa-mountain"></i> Mountain
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-cog"></i> 21 Speed
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-weight"></i> 12kg
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="openBookingModal('Hunter Red', 120)">Rent Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bike 5 - bike.1 -->
+                <div class="col-md-4">
+                    <div class="bike-card">
+                        <div class="bike-image">
+                            <img src="https://z-cdn-media.chatglm.cn/files/203c5e94-9635-4c37-bd11-477054113caf_bike.1.jpeg?auth_key=1789888414-f456dc3f87c74a1883c11ad21a0ae326-0-77e4385cdde8e63135c29224954d16c4" alt="Sport Bike">
+                            <div class="price-badge">₹120/hr</div>
+                        </div>
+                        <div class="bike-details">
+                            <div class="ai-recommendation">
+                                <i class="fas fa-bolt"></i> AI Speed Choice
+                            </div>
+                            <h3 class="bike-name">Speed Master</h3>
+                            <div class="bike-price">₹120/hour</div>
+                            <div class="bike-features">
+                                <div class="bike-feature">
+                                    <i class="fas fa-road"></i> Road
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-cog"></i> 24 Speed
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-weight"></i> 9kg
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="openBookingModal('Speed Master', 120)">Rent Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bike 6 - image_175835 -->
+                <div class="col-md-4">
+                    <div class="bike-card">
+                        <div class="bike-image">
+                            <img src="https://images.unsplash.com/photo-1507035895489-5b8f1c2b4c0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Budget Bike">
+                            <div class="price-badge">₹50/hr</div>
+                        </div>
+                        <div class="bike-details">
+                            <div class="ai-recommendation">
+                                <i class="fas fa-tag"></i> AI Budget Pick
+                            </div>
+                            <h3 class="bike-name">Budget Cruiser</h3>
+                            <div class="bike-price">₹50/hour</div>
+                            <div class="bike-features">
+                                <div class="bike-feature">
+                                    <i class="fas fa-city"></i> City
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-cog"></i> 7 Speed
+                                </div>
+                                <div class="bike-feature">
+                                    <i class="fas fa-weight"></i> 16kg
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="openBookingModal('Budget Cruiser', 50)">Rent Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Route Planner -->
+    <section id="route-planner" class="route-planner">
+        <div class="container">
+            <h2 class="section-title">AI Route Planner</h2>
+            <div class="route-container">
+                <div class="route-form">
+                    <h4>Plan Your Perfect Ride</h4>
+                    <form id="route-form">
+                        <div class="mb-3">
+                            <label for="start-location" class="form-label">Start Location</label>
+                            <input type="text" class="form-control" id="start-location" placeholder="Enter start address">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end-location" class="form-label">Destination</label>
+                            <input type="text" class="form-control" id="end-location" placeholder="Enter destination">
+                        </div>
+                        <div class="mb-3">
+                            <label for="route-preference" class="form-label">Route Preference</label>
+                            <select class="form-control" id="route-preference">
+                                <option value="fastest">Fastest Route</option>
+                                <option value="safest">Safest Route</option>
+                                <option value="scenic">Scenic Route</option>
+                                <option value="bike-lanes">Bike Lane Priority</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="difficulty" class="form-label">Difficulty Level</label>
+                            <select class="form-control" id="difficulty">
+                                <option value="easy">Easy</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="challenging">Challenging</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Plan Route</button>
+                    </form>
+                    
+                    <div class="mt-4" id="route-info" style="display: none;">
+                        <h5>AI Route Analysis</h5>
+                        <div class="alert alert-info">
+                            <strong>Distance:</strong> <span id="route-distance">5.2 km</span><br>
+                            <strong>Estimated Time:</strong> <span id="route-time">22 minutes</span><br>
+                            <strong>Calories Burned:</strong> <span id="route-calories">145 kcal</span><br>
+                            <strong>Safety Score:</strong> <span id="route-safety">9/10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="route-map">
+                    <div class="map-placeholder">
+                        <div>
+                            <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <p>Interactive Map with AI-Optimized Route</p>
+                            <p class="text-muted">Real-time traffic and bike lane data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>AI Bike Rental</h3>
+                    <p>Revolutionizing bike rentals with artificial intelligence for a smarter, safer, and more enjoyable cycling experience.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#bikes">Available Bikes</a></li>
+                        <li><a href="#ai-features">AI Features</a></li>
+                        <li><a href="#route-planner">Route Planner</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Bike Rentals</a></li>
+                        <li><a href="#">AI Recommendations</a></li>
+                        <li><a href="#">Route Planning</a></li>
+                        <li><a href="#">Virtual Assistant</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="#">support@aibikerental.com</a></li>
+                        <li><a href="#">+91 98765 43210</a></li>
+                        <li><a href="#">123 Tech Street, Bangalore</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AI Bike Rental. All rights reserved. Powered by Artificial Intelligence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <div class="chatbot">
+        <button class="chatbot-button" id="chatbot-toggle">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div class="chatbot-window" id="chatbot-window">
+            <div class="chatbot-header">
+                <h5>AI Assistant</h5>
+                <button class="close-btn" id="chatbot-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot">
+                    Hello! I'm your AI bike rental assistant. How can I help you today?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="chat-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="booking-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-bike-name">Book Your Bike</h3>
+                <button class="close-btn" onclick="closeBookingModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="booking-form">
+                <div class="mb-3">
+                    <label for="booking-date" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="booking-date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="booking-time" class="form-label">Time</label>
+                    <input type="time" class="form-control" id="booking-time" required>
+                </div>
+                <div class="mb-3">
+                    <label for="booking-duration" class="form-label">Duration</label>
+                    <select class="form-control" id="booking-duration" required>
+                        <option value="1">1 Hour</option>
+                        <option value="2">2 Hours</option>
+                        <option value="4">4 Hours</option>
+                        <option value="8">8 Hours</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="customer-name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="customer-name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="customer-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="customer-email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="customer-phone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="customer-phone" required>
+                </div>
+                <div class="alert alert-info">
+                    <strong>AI Recommendation:</strong> Based on current weather and traffic conditions, we recommend starting your ride between 9-11 AM for the best experience.
+                </div>
+                <div class="alert alert-warning">
+                    <strong>Price Calculation:</strong> <span id="price-calculation">₹0</span>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Chatbot functionality
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatMessages = document.getElementById('chatbot-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+
+        chatbotToggle.addEventListener('click', () => {
+            chatbotWindow.classList.add('active');
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.classList.remove('active');
+        });
+
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addMessage(message, 'user');
+                chatInput.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const response = getAIResponse(message);
+                    addMessage(response, 'bot');
+                }, 1000);
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+                return "We have three pricing tiers: Budget Cruiser at ₹50/hour, KTM Orange and Sport Racer at ₹80/hour, and Retro Classic, Hunter Red, and Speed Master at ₹120/hour. Which bike interests you?";
+            } else if (lowerMessage.includes('recommend') || lowerMessage.includes('best bike')) {
+                return "Based on current conditions, I recommend the Speed Master for road cycling or the Retro Classic for a stylish city ride. For budget options, try the Budget Cruiser at only ₹50/hour.";
+            } else if (lowerMessage.includes('route') || lowerMessage.includes('direction')) {
+                return "Use our AI Route Planner to get the best cycling routes. It considers traffic, weather, and bike lanes for optimal safety and enjoyment.";
+            } else if (lowerMessage.includes('booking') || lowerMessage.includes('rent')) {
+                return "You can book any bike by clicking the 'Rent Now' button on the bike card. Fill in your details and we'll confirm your booking instantly.";
+            } else if (lowerMessage.includes('helmet') || lowerMessage.includes('safety')) {
+                return "Safety first! All our rentals include a free helmet and safety briefing. We also recommend using our AI Route Planner for the safest paths.";
+            } else if (lowerMessage.includes('weather') || lowerMessage.includes('rain')) {
+                return "Our AI monitors weather conditions in real-time. If rain is expected, we'll recommend covered routes or suggest rescheduling for a better day.";
+            } else if (lowerMessage.includes('₹50') || lowerMessage.includes('₹80') || lowerMessage.includes('₹120')) {
+                return "Yes, we offer bikes at ₹50, ₹80, and ₹120 per hour. The Budget Cruiser is our most affordable option at ₹50/hour, while our premium bikes are ₹120/hour.";
+            } else {
+                return "I'm here to help with bike rentals, recommendations, route planning, and any questions about our services. What would you like to know?";
+            }
+        }
+
+        // Booking modal functionality
+        let currentBikeName = '';
+        let currentBikePrice = 0;
+
+        function openBookingModal(bikeName, price) {
+            currentBikeName = bikeName;
+            currentBikePrice = price;
+            document.getElementById('modal-bike-name').textContent = `Book ${bikeName}`;
+            document.getElementById('booking-modal').classList.add('active');
+            updatePriceCalculation();
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('active');
+        }
+
+        // Update price calculation when duration changes
+        document.getElementById('booking-duration').addEventListener('change', updatePriceCalculation);
+
+        function updatePriceCalculation() {
+            const duration = parseInt(document.getElementById('booking-duration').value);
+            const totalPrice = currentBikePrice * duration;
+            document.getElementById('price-calculation').textContent = `₹${totalPrice} (${duration} hour${duration > 1 ? 's' : ''} at ₹${currentBikePrice}/hour)`;
+        }
+
+        document.getElementById('booking-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simulate booking confirmation
+            const duration = parseInt(document.getElementById('booking-duration').value);
+            const totalPrice = currentBikePrice * duration;
+            
+            alert(`Booking confirmed!\n\nBike: ${currentBikeName}\nDuration: ${duration} hour${duration > 1 ? 's' : ''}\nTotal Price: ₹${totalPrice}\n\nCheck your email for confirmation details.`);
+            
+            closeBookingModal();
+        });
+
+        // Route planner functionality
+        document.getElementById('route-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show route info
+            document.getElementById('route-info').style.display = 'block';
+            
+            // Simulate AI analysis
+            const distances = [3.2, 4.5, 5.2, 6.8, 8.1];
+            const times = [15, 18, 22, 28, 35];
+            const calories = [89, 112, 145, 178, 210];
+            const safetyScores = [8, 9, 9, 7, 6];
+            
+            const randomIndex = Math.floor(Math.random() * distances.length);
+            
+            document.getElementById('route-distance').textContent = `${distances[randomIndex]} km`;
+            document.getElementById('route-time').textContent = `${times[randomIndex]} minutes`;
+            document.getElementById('route-calories').textContent = `${calories[randomIndex]} kcal`;
+            document.getElementById('route-safety').textContent = `${safetyScores[randomIndex]}/10`;
+        });
+
+        // Filter functionality
+        document.getElementById('bike-type').addEventListener('change', filterBikes);
+        document.getElementById('duration').addEventListener('change', filterBikes);
+        document.getElementById('price').addEventListener('change', filterBikes);
+        document.getElementById('ai-pref').addEventListener('change', filterBikes);
+
+        function filterBikes() {
+            // This is a simplified filter simulation
+            // In a real app, this would filter the actual bike list
+            const bikeCards = document.querySelectorAll('.bike-card');
+            
+            bikeCards.forEach(card => {
+                const bikeName = card.querySelector('.bike-name').textContent;
+                const bikePrice = parseInt(card.querySelector('.bike-price').textContent.replace('₹', '').replace('/hour', ''));
+                
+                // Simple visibility logic for demo
+                card.style.display = 'block';
+            });
+            
+            // Show AI recommendation notification
+            if (document.getElementById('ai-pref').value) {
+                showNotification('AI has updated recommendations based on your preferences', 'success');
+            }
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} position-fixed top-0 end-0 m-3`;
+            notification.style.zIndex = '9999';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize with a welcome message
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showNotification('Welcome to AI Bike Rental! Our AI is ready to help you find the perfect bike.', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
